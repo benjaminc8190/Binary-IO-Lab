@@ -11,21 +11,24 @@ import java.io.*;
 // Finally, please read from the binary file and print those names to the DOS console or via the pop-up window.
 
 class Binary {
-  public static void main(Stirng[] args){
-    String[] series = {"Star Wars", "Terminator", "Aliens", "Maze Runnner", "Superman"};
-    BufferedOutputStream output = new BufferedOutputStream(new BufferedOutputStream("temp.txt"));
-    for(int i=0; i<series.length; i++){
-      output.write(series[i]);
+  public static void main(String[] args){
+    try {
+      String[] series = {"Star Wars", "Terminator", "Aliens", "Maze Runnner", "Superman"};
+      DataOutputStream output = new DataOutputStream(new FileOutputStream("temp.dat"));
+      for(int i=0; i<series.length; i++){
+        output.writeUTF(series[i]);
+      }
+
+      output.close();
+
+      DataInputStream input = new DataInputStream(new FileInputStream("temp.dat"));
+      for (int i = 0; i<series.length; i++){
+        System.out.print(input.readUTF()+" ");
+      }
+
+      input.close();
+    } catch (IOException e){
+      System.out.println("IO Exception: " + e.getMessage());
     }
-
-    output.close();
-
-    FileInputStream input = new FileInputStream(new FileInputStream("temp.txt"));
-    for (int i = 0; i<series.length; i++){
-      System.out.print(input.read()+" ");
-    }
-
-    input.close();
-    
-  }  
+  }
 }
